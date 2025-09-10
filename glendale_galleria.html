@@ -1,27 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>JSON Viewer</title>
+  <title>My JSON Data</title>
+  <meta name="description" content="This page displays example JSON data in a structured, crawlable format.">
   <style>
-    body { font-family: monospace; white-space: pre; }
+    body { font-family: Arial, sans-serif; line-height: 1.5; padding: 2rem; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+    th { background-color: #f4f4f4; }
+    h2 { margin-top: 2rem; }
   </style>
 </head>
 <body>
-  <h1>Contents of glendale_galleria.json</h1>
-  <pre id="output"></pre>
+  <h1>Example JSON Data</h1>
+
+  <p>You can view the raw JSON file here: 
+    <a href="glendale_galleria.json" target="_blank">glendale_galleria.json</a>
+  </p>
+
+  <div id="json-content"></div>
 
   <script>
     fetch('glendale_galleria.json')
       .then(response => response.json())
       .then(data => {
-        document.getElementById('output').textContent = 
-          JSON.stringify(data, null, 2);
+        const container = document.getElementById('json-content');
+
+        // Function to render JSON recursively
+        function renderJSON(obj, parent) {
+          if (typeof obj === 'object' && obj !== null) {
+            const table = document.createElement('table');
+            const tbody = document.createElement('tbody');
+            
+            for (const key in obj) {
+              const tr = document.createElement('tr');
+              const th = document.createElement('th');
+              th.textContent = key;
+              const td = document.createElement('td');
+
+              if (typeof obj[key] === 'object') {
+                renderJSON(obj[key], td);
+              } else {
+                td.textContent = obj[key];
+              }
+
+              tr.appendChild(th);
+              tr.appendChild(td);
+              tbody.appendChild(tr);
+            }
+
+            table.appendChild(tbody);
+            parent.appendChild(table);
+          }
+        }
+
+        renderJSON(data, container);
       })
       .catch(err => {
-        document.getElementById('output').textContent = 'Error loading JSON';
+        document.getElementById('json-content').textContent =
+          'Error loading JSON';
         console.error(err);
       });
   </script>
 </body>
 </html>
+
