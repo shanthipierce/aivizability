@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>JSON Viewer</title>
+  <style>
+    body { font-family: monospace; white-space: pre; }
+  </style>
+</head>
+<body>
+  <h1>Contents of glendale_galleria.json</h1>
+  <pre id="output"></pre>
+
+  <script>
+    fetch('glendale_galleria.json')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('output').textContent = 
+          JSON.stringify(data, null, 2);
+      })
+      .catch(err => {
+        document.getElementById('output').textContent = 'Error loading JSON';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
