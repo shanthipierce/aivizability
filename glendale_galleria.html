@@ -33,13 +33,13 @@
   <h1>Glendale Galleria Directory</h1>
 
   <p>You can view the raw JSON file here: 
-    <a href="glendale_galleria.json" target="_blank">glendale_galleria.json</a>
+    <a href="https://aivizability.com/glendale_galleria.json" target="_blank">glendale_galleria.json</a>
   </p>
 
   <div id="json-content"></div>
 
   <script>
-    fetch('glendale_galleria.json')
+    fetch('https://aivizability.com/glendale_galleria.json')
       .then(response => response.json())
       .then(data => {
         const container = document.getElementById('json-content');
